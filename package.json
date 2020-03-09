@@ -1,0 +1,16 @@
+{
+  "name": "worker",
+  "version": "1.0.0",
+  "description": "tracker worker",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "claudiu ilie",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "fs-extra": "^8.1.0",
+    "workerpool": "^5.0.4"
+  }
+}
