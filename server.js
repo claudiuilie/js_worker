@@ -15,25 +15,33 @@ app.use(function(req, res, next) {
     next();
   });
 //start worker
-app.post('/', (req, res) => {
+app.post('/download', (req, res) => {
 
     let params = req.query;
     let task = new arrayBuilder(params.id, params.magnet);
     let taskId = typeof list[`${params.id}`]
-    
-    if(taskId == 'undefined'){
+    let response = {posted: false, error: false};
 
+    if(taskId == 'undefined'){
+        
         list[`${params.id}`] = task;
         pool.runTask(task, (err, result) => {
             //when finish or error
-            console.log(err);
-    
+            if (err){
+                console.log(3)
+                response.error = err;
+            }else{
+                console.log(2)
+                response.error = result.error;
+                response.posted = result.posted;
+            }
+            console.log(1)
+            console.log(result)
+            console.log(response)
+            res.send(response)
         });
-
-        res.send("Sent to worker - id:" + params.id)
-
     }else if(taskId == 'object'){
-        res.send("Worker already started - id:" + params.id)
+        res.send({posted: false, error: "Tracker is already posted."})
     }
     
 });

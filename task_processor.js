@@ -11,7 +11,6 @@ parentPort.on('message', (task) => {
 
     var progress = new Int8Array(task.buff);
     downloadTorrent(task, progress)
-    // parentPort.postMessage(task);
 });
 
 
@@ -28,7 +27,8 @@ function downloadTorrent(task, progress){
      }
         
      client.add(task.magnet, { path: '/temp/' }, function (torrent) {
-         
+      parentPort.postMessage({error: false, posted: true});
+
          let interval = setInterval(function () {
              // posted
              progress[0] = 1;
@@ -70,10 +70,10 @@ function downloadTorrent(task, progress){
               }
             });
 
-           console.log(prettyBytes(torrent.downloadSpeed) + '/s')
-           console.log('Progress: ' + (torrent.progress * 100).toFixed(1) + '%')
-           console.log('NumPeers: '+ torrent.numPeers)
-           console.log('Paused: '+torrent.paused)
+          //  console.log(prettyBytes(torrent.downloadSpeed) + '/s')
+          //  console.log('Progress: ' + (torrent.progress * 100).toFixed(1) + '%')
+          //  console.log('NumPeers: '+ torrent.numPeers)
+          //  console.log('Paused: '+torrent.paused)
          }, 2000)
           
          torrent.on('done', function () {
@@ -169,6 +169,7 @@ function downloadTorrent(task, progress){
        })
        
        client.on('error', function (err) {
+           parentPort.postMessage({error: err.message, posted: false});
            // aici daca nu e bun magnet-link-ul
            progress[0] = 1;
            progress[3] = 1
@@ -193,7 +194,6 @@ function downloadTorrent(task, progress){
                 }
             }
           });
-           console.log(err)
         })
 
         client.on('torrent', function (torrent) {
