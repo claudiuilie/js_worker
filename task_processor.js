@@ -28,7 +28,7 @@ function downloadTorrent(task, progress){
         
      client.add(task.magnet, { path: '/temp/' }, function (torrent) {
       parentPort.postMessage({error: false, posted: true});
-
+      
          let interval = setInterval(function () {
              // posted
              progress[0] = 1;
@@ -137,12 +137,13 @@ function downloadTorrent(task, progress){
                   }
               }
             });
+            console.log('error')
              console.log(err)
         })
          // torrent.on('warning', function (err) {console.log(err)})
          torrent.on('noPeers', function (announceType) {
             progress[0] = 1;
-            progress[3] = 1;
+            
 
             let torr = {
               "torr_posted":progress[0],
