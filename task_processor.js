@@ -202,3 +202,4 @@ function downloadTorrent(task, progress){
         })
 }
 
+magnet:?xt=urn:btih:0e00f3b5ab86f085158e7cd54fac688154ea3b0c&dn=Manifest.S02E11.720p.WEB.x265-MiNX%5BTGx%5D&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&tr=udp%3A%2F%2Ftracker.ccc.de%3A80
