@@ -1,0 +1,25 @@
+param(
+  [int]$IntervalSec = 240,
+  [int]$RunMinutes = 0  # 0 = rulează până oprești cu Ctrl+C
+)
+
+Write-Host "Keeping session active. Interval: $IntervalSec sec. Stop with Ctrl+C."
+
+$wshell = New-Object -ComObject WScript.Shell
+$endTime = if ($RunMinutes -gt 0) { (Get-Date).AddMinutes($RunMinutes) } else { $null }
+
+try {
+  while ($true) {
+    if ($endTime -and (Get-Date) -ge $endTime) { break }
+
+    # Toggle ScrollLock: on/off (două apăsări)
+    $wshell.SendKeys('{SCROLLLOCK}')
+    Start-Sleep -Milliseconds 100
+    $wshell.SendKeys('{SCROLLLOCK}')
+
+    Start-Sleep -Seconds $IntervalSec
+  }
+}
+finally {
+  Write-Host "Stopped."
+}
